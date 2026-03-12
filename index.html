@@ -806,20 +806,41 @@
 <div id="inspection-page" class="page active">
     <div class="container">
         <div class="header">
-            <h1>🔧 AI Pump Inspection</h1>
-            <p>NOVAPLEX IP-185 A&B - Acid Unit</p>
+            <h1>🔧 Uptime Cadet</h1>
+            <p>Equipment Inspection Report</p>
             <div class="info-grid">
                 <div class="info-field">
-                    <label>Equipment Tag</label>
-                    <input type="text" id="equipmentTag" value="IP-185A">
+                    <label>Equipment Tag / ID</label>
+                    <input type="text" id="equipmentTag" placeholder="e.g. P-101A">
                 </div>
                 <div class="info-field">
-                    <label>Service</label>
-                    <input type="text" id="service" value="Acrylic Acid">
+                    <label>Equipment Type</label>
+                    <select id="service" style="width:100%;padding:6px;border:none;border-radius:4px;font-size:14px;">
+                        <option value="">-- Select Type --</option>
+                        <option>Centrifugal Pump</option>
+                        <option>Reciprocating Pump</option>
+                        <option>Diaphragm Pump</option>
+                        <option>Gear Pump</option>
+                        <option>Electric Motor</option>
+                        <option>Compressor</option>
+                        <option>Gearbox</option>
+                        <option>Valve / Actuator</option>
+                        <option>Fan / Blower</option>
+                        <option>Heat Exchanger</option>
+                        <option>Other Rotating Equipment</option>
+                    </select>
                 </div>
                 <div class="info-field">
-                    <label>Technician</label>
-                    <input type="text" id="technician">
+                    <label>Technician / Inspector</label>
+                    <input type="text" id="technician" placeholder="Full name">
+                </div>
+                <div class="info-field">
+                    <label>Work Order #</label>
+                    <input type="text" id="workOrder" placeholder="WO-XXXXX">
+                </div>
+                <div class="info-field">
+                    <label>Location / Unit</label>
+                    <input type="text" id="location" placeholder="e.g. Unit 4 / Bay 2">
                 </div>
                 <div class="info-field">
                     <label>Date</label>
@@ -850,10 +871,10 @@
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Verify LOTO and depressurization</div>
+                        <div class="item-title">LOTO verified — equipment isolated and de-energized</div>
                     </div>
                     <div class="warning-box">
-                        <strong>⚠️ SAFETY:</strong> Depressurize all lines. Pump may contain residual acrylic acid.
+                        <strong>⚠️ SAFETY:</strong> Confirm all energy sources are locked out before proceeding.
                     </div>
                     <div class="input-group">
                         <label>LOTO Tag #</label>
@@ -864,19 +885,34 @@
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">PPE confirmed (acid gloves, shield, apron)</div>
+                        <div class="item-title">Required PPE confirmed and on person</div>
+                    </div>
+                    <div class="input-group">
+                        <label>PPE used</label>
+                        <input type="text" placeholder="e.g. Hard hat, safety glasses, gloves, steel toes">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">As-found photos captured</div>
+                        <div class="item-title">As-found condition photos captured</div>
                     </div>
                     <div class="photo-upload" onclick="this.querySelector('input').click()">
                         <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
-                        📷 Upload Photos (4 angles minimum)
+                        📷 Upload As-Found Photos (all angles)
                         <div class="photo-preview"></div>
+                    </div>
+                </div>
+
+                <div class="inspection-item">
+                    <div class="item-header">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <div class="item-title">As-found operating data recorded</div>
+                    </div>
+                    <div class="input-group">
+                        <label>Last known operating conditions / readings</label>
+                        <textarea placeholder="Temperature, pressure, vibration, flow, runtime hours, etc."></textarea>
                     </div>
                 </div>
 
@@ -885,82 +921,22 @@
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Remove headers and heat tracing</div>
-                    </div>
-                    <div class="warning-box">
-                        <strong>⚠️ CAUTION:</strong> Insulation may contain residual acid.
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Remove valve spools</div>
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Disconnect hydraulic reservoir</div>
-                    </div>
-                    <div class="oem-guidance">
-                        <strong>📖 OEM Ref: Section 3.3.9.2</strong> Unscrew vent valve, then bottom bolt. Catch fluid.
+                        <div class="item-title">External components removed and tagged</div>
                     </div>
                     <div class="input-group">
-                        <label>Hydraulic fluid appearance</label>
-                        <select>
-                            <option>Clear - normal</option>
-                            <option>Discolored</option>
-                            <option>Dark/contaminated</option>
-                            <option>Milky (water present)</option>
-                        </select>
+                        <label>Notes</label>
+                        <textarea placeholder="Describe what was removed, any unusual findings during teardown..."></textarea>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Remove diaphragm assembly</div>
-                    </div>
-                    <div class="oem-guidance">
-                        <strong>📖 OEM Ref: Section 3.3.9.3</strong> Remove cover screws uniformly, then diaphragms and intermediate ring.
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Remove plunger and packing</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- INSPECTION PHASE -->
-            <div id="inspection-phase" class="phase-content">
-                <div class="group-header">🔍 Diaphragm Assembly</div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Front PTFE Diaphragm (Process Side)</div>
-                    </div>
-                    <div class="oem-guidance">
-                        <strong>📖 OEM Ref: 3.3.9.3</strong> Check for cracks, ruptures, degradation. Primary barrier.
-                    </div>
-                    <div class="condition-selector">
-                        <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
-                        <button class="condition-btn fair"    onclick="selectCondition(this,'fair')">⚠️ Fair</button>
-                        <button class="condition-btn poor"    onclick="selectCondition(this,'poor')">❌ Poor</button>
-                        <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
-                    </div>
-                    <div class="input-group">
-                        <label>Findings</label>
-                        <textarea placeholder="Describe condition..."></textarea>
+                        <div class="item-title">Internal components disassembled and laid out</div>
                     </div>
                     <div class="photo-upload" onclick="this.querySelector('input').click()">
                         <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
-                        📷 Photo: Front diaphragm
+                        📷 Disassembly Photos
                         <div class="photo-preview"></div>
                     </div>
                 </div>
@@ -968,7 +944,19 @@
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Rear PTFE Diaphragm</div>
+                        <div class="item-title">All parts cleaned and ready for inspection</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSPECTION PHASE -->
+            <div id="inspection-phase" class="phase-content">
+                <div class="group-header">🔍 General Condition Assessment</div>
+
+                <div class="inspection-item">
+                    <div class="item-header">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <div class="item-title">Housing / Casing / Frame</div>
                     </div>
                     <div class="condition-selector">
                         <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
@@ -978,39 +966,19 @@
                     </div>
                     <div class="input-group">
                         <label>Findings</label>
-                        <textarea placeholder="Describe condition..."></textarea>
+                        <textarea placeholder="Cracks, corrosion, erosion, wear marks..."></textarea>
+                    </div>
+                    <div class="photo-upload" onclick="this.querySelector('input').click()">
+                        <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
+                        📷 Photos
+                        <div class="photo-preview"></div>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Intermediate Ring &amp; Capillaries</div>
-                    </div>
-                    <div class="warning-box">
-                        <strong>⚠️ CRITICAL:</strong> Capillaries must be clear. Blocked = no rupture monitoring.
-                    </div>
-                    <div class="input-group">
-                        <label>Capillary test (blow through)</label>
-                        <select>
-                            <option>Clear - air passes freely</option>
-                            <option>Partially blocked</option>
-                            <option>Blocked - no airflow</option>
-                            <option>Damaged/broken</option>
-                        </select>
-                    </div>
-                    <div class="condition-selector">
-                        <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
-                        <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
-                    </div>
-                </div>
-
-                <div class="group-header">🚪 Valve Inspection</div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Suction Valve (ball &amp; seat)</div>
+                        <div class="item-title">Rotating / Moving Components</div>
                     </div>
                     <div class="condition-selector">
                         <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
@@ -1019,15 +987,20 @@
                         <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
                     </div>
                     <div class="input-group">
-                        <label>Wear description</label>
-                        <textarea placeholder="Pitting, scoring, erosion..."></textarea>
+                        <label>Findings</label>
+                        <textarea placeholder="Shaft, impeller, rotor, gears — scoring, pitting, wear..."></textarea>
+                    </div>
+                    <div class="photo-upload" onclick="this.querySelector('input').click()">
+                        <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
+                        📷 Photos
+                        <div class="photo-preview"></div>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Discharge Valve (ball &amp; seat)</div>
+                        <div class="item-title">Bearings</div>
                     </div>
                     <div class="condition-selector">
                         <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
@@ -1036,17 +1009,15 @@
                         <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
                     </div>
                     <div class="input-group">
-                        <label>Wear description</label>
-                        <textarea placeholder="Pitting, scoring, erosion..."></textarea>
+                        <label>Findings</label>
+                        <textarea placeholder="Pitting, spalling, discoloration, noise, play..."></textarea>
                     </div>
                 </div>
-
-                <div class="group-header">⚙️ Plunger &amp; Packing</div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Plunger surface</div>
+                        <div class="item-title">Seals / Packing / Gaskets</div>
                     </div>
                     <div class="condition-selector">
                         <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
@@ -1055,36 +1026,60 @@
                         <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
                     </div>
                     <div class="input-group">
-                        <label>Surface defects</label>
-                        <textarea placeholder="Scoring, pitting..."></textarea>
+                        <label>Findings</label>
+                        <textarea placeholder="Leakage evidence, wear, extrusion, cracking..."></textarea>
                     </div>
                 </div>
+
+                <div class="group-header">⚡ Wear &amp; Damage Assessment</div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Packing/seals</div>
-                    </div>
-                    <div class="condition-selector">
-                        <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ Good</button>
-                        <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Replace</button>
-                    </div>
-                </div>
-
-                <div class="group-header">📝 Summary</div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Root cause analysis</div>
+                        <div class="item-title">Wear surfaces measured / checked</div>
                     </div>
                     <div class="input-group">
-                        <label>What caused the failure/wear?</label>
-                        <textarea style="min-height:80px" placeholder="Operating conditions, chemical compatibility, maintenance history..."></textarea>
+                        <label>Measurements / clearances (note acceptable limits if known)</label>
+                        <textarea placeholder="e.g. Shaft runout: 0.003in, Bearing clearance: 0.005in..."></textarea>
+                    </div>
+                </div>
+
+                <div class="inspection-item">
+                    <div class="item-header">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <div class="item-title">Corrosion / erosion assessment</div>
+                    </div>
+                    <div class="condition-selector">
+                        <button class="condition-btn good"    onclick="selectCondition(this,'good')">✅ None</button>
+                        <button class="condition-btn fair"    onclick="selectCondition(this,'fair')">⚠️ Minor</button>
+                        <button class="condition-btn poor"    onclick="selectCondition(this,'poor')">❌ Significant</button>
+                        <button class="condition-btn replace" onclick="selectCondition(this,'replace')">🔄 Severe</button>
+                    </div>
+                    <div class="input-group">
+                        <label>Describe affected areas</label>
+                        <textarea placeholder="Location, depth, extent of damage..."></textarea>
+                    </div>
+                    <div class="photo-upload" onclick="this.querySelector('input').click()">
+                        <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
+                        📷 Damage Photos
+                        <div class="photo-preview"></div>
+                    </div>
+                </div>
+
+                <div class="group-header">📝 Root Cause &amp; Recommendations</div>
+
+                <div class="inspection-item">
+                    <div class="item-header">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <div class="item-title">Root cause analysis completed</div>
+                    </div>
+                    <div class="input-group">
+                        <label>Probable root cause</label>
+                        <textarea style="min-height:80px" placeholder="Misalignment, overload, lack of lubrication, process upset, normal wear..."></textarea>
                     </div>
                     <div class="input-group">
                         <label>Recommendations</label>
-                        <textarea style="min-height:80px" placeholder="Preventive measures, maintenance intervals..."></textarea>
+                        <textarea style="min-height:80px" placeholder="Corrective actions, PM interval changes, design modifications..."></textarea>
                     </div>
                 </div>
             </div>
@@ -1111,77 +1106,66 @@
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Front PTFE Diaphragm</div>
+                        <div class="item-title">Bearings</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Part Number / Description</label>
+                        <input type="text" placeholder="e.g. SKF 6205-2RS">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Rear PTFE Diaphragm</div>
+                        <div class="item-title">Seals / Mechanical Seal</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Part Number / Description</label>
+                        <input type="text" placeholder="">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Intermediate Ring</div>
+                        <div class="item-title">Gaskets / O-Rings</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Part Number / Description</label>
+                        <input type="text" placeholder="">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Suction Valve Assembly</div>
+                        <div class="item-title">Wear Components (impeller, sleeve, liner, etc.)</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Part Number / Description</label>
+                        <input type="text" placeholder="">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Discharge Valve Assembly</div>
+                        <div class="item-title">Coupling / Drive Components</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Part Number / Description</label>
+                        <input type="text" placeholder="">
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">Plunger Packing Kit</div>
+                        <div class="item-title">Other Parts (list below)</div>
                     </div>
                     <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress(); updatePartsCount()">
-                        <div class="item-title">O-Ring Kit</div>
-                    </div>
-                    <div class="input-group">
-                        <label>Part Number</label>
-                        <input type="text">
+                        <label>Description</label>
+                        <textarea placeholder="List any other parts replaced..."></textarea>
                     </div>
                 </div>
 
@@ -1209,94 +1193,85 @@
 
             <!-- TESTING PHASE -->
             <div id="testing-phase" class="phase-content">
-                <div class="group-header">✅ Functional Tests</div>
+                <div class="group-header">✅ Reassembly &amp; Functional Test</div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Visual - no leaks at standstill</div>
+                        <div class="item-title">Reassembly completed per procedure</div>
+                    </div>
+                    <div class="input-group">
+                        <label>Notes</label>
+                        <textarea placeholder="Torque values applied, alignment checked, special procedures followed..."></textarea>
+                    </div>
+                </div>
+
+                <div class="inspection-item">
+                    <div class="item-header">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <div class="item-title">Pre-startup visual inspection — no leaks, no loose hardware</div>
                     </div>
                     <div class="input-group">
                         <label>Result</label>
                         <select>
-                            <option>✅ Pass - no leaks</option>
-                            <option>❌ Fail - leaks detected</option>
+                            <option>✅ Pass — ready to start</option>
+                            <option>❌ Fail — issues found (describe below)</option>
                         </select>
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Start-up procedure completed</div>
-                    </div>
-                    <div class="oem-guidance">
-                        <strong>📖 OEM Ref: 5.3.2</strong> Start at lowest speed, gradually increase.
-                    </div>
-                </div>
-
-                <div class="inspection-item">
-                    <div class="item-header">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Hydraulic fluid level check</div>
                     </div>
                     <div class="input-group">
-                        <label>Result</label>
-                        <select>
-                            <option>✅ At middle mark</option>
-                            <option>⚠️ Low - refilled</option>
-                            <option>⚠️ High - adjusted</option>
-                        </select>
+                        <label>Notes</label>
+                        <textarea placeholder="Any concerns before startup..."></textarea>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Packing gland leakage check</div>
+                        <div class="item-title">Equipment started up and running</div>
                     </div>
                     <div class="input-group">
-                        <label>Result</label>
-                        <select>
-                            <option>✅ No leakage</option>
-                            <option>✅ Slight weepage (OK)</option>
-                            <option>❌ Excessive leakage</option>
-                        </select>
+                        <label>Startup observations</label>
+                        <textarea placeholder="Noise, vibration, temperature, unusual behavior on startup..."></textarea>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Diaphragm monitor test</div>
+                        <div class="item-title">Operating parameters verified within normal range</div>
                     </div>
                     <div class="input-group">
-                        <label>Result</label>
-                        <select>
-                            <option>✅ Pass - no pressure</option>
-                            <option>❌ Fail - pressure detected</option>
-                        </select>
+                        <label>Readings at startup</label>
+                        <textarea placeholder="Temperature, pressure, current draw, vibration, flow — record actual values..."></textarea>
                     </div>
                 </div>
 
                 <div class="inspection-item">
                     <div class="item-header">
                         <input type="checkbox" onchange="updateProgress()">
-                        <div class="item-title">Final acceptance photos</div>
+                        <div class="item-title">Final acceptance — equipment handed back to operations</div>
+                    </div>
+                    <div class="input-group">
+                        <label>Overall result</label>
+                        <select>
+                            <option>✅ Pass — returned to service</option>
+                            <option>⚠️ Conditional — monitor closely</option>
+                            <option>❌ Fail — further work required</option>
+                        </select>
                     </div>
                     <div class="photo-upload" onclick="this.querySelector('input').click()">
                         <input type="file" accept="image/*" multiple onchange="handlePhotos(this)" style="display:none">
-                        📷 Photos: Running pump, gauges
+                        📷 Final As-Left Photos
                         <div class="photo-preview"></div>
                     </div>
                 </div>
 
-                <div class="group-header">📝 Notes</div>
+                <div class="group-header">📝 Final Notes</div>
 
                 <div class="inspection-item">
                     <div class="input-group">
-                        <label>Testing observations</label>
-                        <textarea style="min-height:80px" placeholder="Startup characteristics, noise, vibration..."></textarea>
+                        <label>Additional observations / follow-up items</label>
+                        <textarea style="min-height:100px" placeholder="Anything operations needs to watch, follow-up PMs recommended, open items..."></textarea>
                     </div>
                 </div>
             </div>
@@ -2195,8 +2170,10 @@ function updateLabor() {
 function saveInspection() {
     const data = {
         equipment:  document.getElementById('equipmentTag').value,
-        service:    document.getElementById('service').value,
+        type:       document.getElementById('service').value,
         technician: document.getElementById('technician').value,
+        workOrder:  document.getElementById('workOrder').value,
+        location:   document.getElementById('location').value,
         date:       document.getElementById('inspectionDate').value,
         timestamp:  new Date().toISOString()
     };
@@ -2209,8 +2186,10 @@ function saveInspection() {
 function generateReport() {
     const data = {
         equipment:  document.getElementById('equipmentTag').value,
-        service:    document.getElementById('service').value,
+        type:       document.getElementById('service').value,
         technician: document.getElementById('technician').value,
+        workOrder:  document.getElementById('workOrder').value,
+        location:   document.getElementById('location').value,
         date:       document.getElementById('inspectionDate').value,
         progress:   document.getElementById('progress-text').textContent,
         parts:      document.getElementById('parts-count').textContent,
@@ -2219,13 +2198,15 @@ function generateReport() {
     };
 
     const report = `
-PUMP INSPECTION REPORT
+EQUIPMENT INSPECTION REPORT
 =====================================
 
-Equipment:  ${data.equipment}
-Service:    ${data.service}
-Technician: ${data.technician}
-Date:       ${data.date}
+Equipment Tag:  ${data.equipment}
+Equipment Type: ${data.type}
+Location:       ${data.location}
+Work Order:     ${data.workOrder}
+Technician:     ${data.technician}
+Date:           ${data.date}
 
 SUMMARY
 -------
@@ -2241,9 +2222,9 @@ Generated: ${new Date().toLocaleString()}
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;
-    a.download = `Inspection_${data.equipment}_${data.date}.txt`;
+    a.download = `Inspection_${data.equipment || 'Report'}_${data.date}.txt`;
     a.click();
-    alert('✅ Report generated! This is a basic version. Full PDF reports coming in next phase.');
+    alert('✅ Report generated! Full PDF reports coming in a future update.');
 }
 
 /* ================================================================
